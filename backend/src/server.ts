@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import express, { Express } from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
+import {registerSocket, searchingMatch} from "./components/sockets";
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -16,13 +17,8 @@ const io = new Server(server, {
   },
 });
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
-
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-});
+registerSocket(io);
+searchingMatch(io);
 
 server.listen(PORT, () => {
     console.clear();
