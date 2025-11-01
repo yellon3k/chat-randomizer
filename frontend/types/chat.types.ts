@@ -5,3 +5,9 @@ export type NewChatProps = {
 export type InputProps = {
     disabled: boolean;
 }
+
+export type Stats = {
+    onlineUsers: number;
+    clientsInQueue: number;
+    activeChats: number;
+}

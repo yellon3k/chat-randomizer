@@ -1,7 +1,8 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {NewChatProps} from "@/types/chat.types";
+import {useSocket} from "@/contexts/SocketContext";
 
 const findingMessages = [
     "Still looking for someone to chat with...",
@@ -14,7 +15,15 @@ const noConnectionMessage = "Press the button to find a new chat partner.";
 export default function NewChat(
     {isConnectedToUserStatus} : NewChatProps
 ) {
+    const {socket} = useSocket();
+
     const [displayedMessage, setDisplayedMessage] = useState<string>(noConnectionMessage);
+
+    const handleNewChat = () => {
+        if (socket) {
+            socket.emit("join.queue");
+        }
+    }
 
 
     useEffect(() => {
@@ -54,7 +63,7 @@ export default function NewChat(
     return (
         <div className={`chat-title ${isConnectedToUserStatus !== 2 ? 'no-chatting' : ''}`}>
             <p className={"text"}>{displayedMessage}</p>
-            {isConnectedToUserStatus === 0 && <button className={"new-chat-button"}>New Chat</button>}
+            {isConnectedToUserStatus === 0 && <button className={"new-chat-button"} onClick={handleNewChat}>New Chat</button>}
         </div>
     )
 }
