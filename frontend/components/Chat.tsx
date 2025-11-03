@@ -41,7 +41,7 @@ export default function Chat() {
             <div className={"chat-window"}>
                 <NewChat isConnectedToUserStatus={isConnectedToUserStatus} />
 
-                {isConnectedToUserStatus === 2 && <Messages />}
+                {isConnectedToUserStatus === 2 ? <Messages /> : null}
             </div>
 
             <Input disabled={isConnectedToUserStatus !== 2} />

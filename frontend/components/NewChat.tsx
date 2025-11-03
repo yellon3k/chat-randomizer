@@ -21,6 +21,9 @@ export default function NewChat(
 
     const handleNewChat = () => {
         if (socket) {
+            if(isConnectedToUserStatus == 2) {
+                socket.emit('roll');
+            }
             socket.emit("join.queue");
         }
     }
@@ -63,7 +66,10 @@ export default function NewChat(
     return (
         <div className={`chat-title ${isConnectedToUserStatus !== 2 ? 'no-chatting' : ''}`}>
             <p className={"text"}>{displayedMessage}</p>
-            {isConnectedToUserStatus === 0 && <button className={"new-chat-button"} onClick={handleNewChat}>New Chat</button>}
+            {(isConnectedToUserStatus === 0 || isConnectedToUserStatus === 2) &&
+                <button className={"new-chat-button"} onClick={handleNewChat}>
+                    New Chat
+                </button>}
         </div>
     )
 }
