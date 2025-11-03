@@ -2,6 +2,7 @@ import { Socket } from "socket.io";
 import { MatchmakingService } from "../../services/matchmaking.service";
 import { UsersOnlineService } from "../../services/users.online.service";
 import MatchComponent from "./match.component";
+import MessagesComponent from "./messages.component";
 import {Stats} from "../../types/stats.type";
 
 const matchmakingService = new MatchmakingService();
@@ -12,6 +13,11 @@ export function registerSocket(io : any) {
         userOnlineCount(socket);
 
         MatchComponent(socket, matchmakingService);
+        MessagesComponent(socket, matchmakingService);
+
+        socket.on("roll", () => {
+            Roll(socket);
+        })
 
         socket.on('disconnect', () => {
             userDisconnect(socket);
@@ -49,12 +55,16 @@ function userDisconnect(socket: Socket) {
     console.log('User disconnected');
     usersOnlineService.removeUserOnline(socket.id);
     matchmakingService.removeQueue(socket.id);
+    Roll(socket);
+}
+
+function Roll(socket: Socket) {
     const myMatch = matchmakingService.findMyPair(socket.id);
 
     if(myMatch) {
-        console.log(`Notifying opponent ${myMatch} of disconnection.`);
-        matchmakingService.removeActivePair(socket.id);
-        socket.to(myMatch).emit('match.canceled', { reason: 'opponent_disconnected' });
+        matchmakingService.removeActivePair(socket.id, myMatch);
+        socket.to(myMatch).emit('match.canceled');
+        socket.emit('match.canceled');
     }
 }
 

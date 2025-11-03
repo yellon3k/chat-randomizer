@@ -55,8 +55,7 @@ export class MatchmakingService {
         return activePairs.get(queueId) || null;
     }
 
-    removeActivePair(queueId: string) {
-        const pairId = this.findMyPair(queueId);
+    removeActivePair(queueId: string, pairId: string) {
         if (!pairId) return;
 
         activePairs.delete(queueId);
