@@ -19,7 +19,6 @@ body {
 
 main {
     width: 100%;
-    max-width: 1920px;
     display: flex;
     flex-wrap: wrap;
     height: 100%;
@@ -51,10 +50,10 @@ main {
             left: 50%;
             top: 0;
             width: 80%;
-            min-height: 35px;
+            min-height: 45px;
             background-color: #0d1b2a;
             border-radius: 15px;
-            padding: 7px 0 0 10px;
+            padding: 7px 0 10px 10px;
             transform: translateX(-50%);
             transition: min-height 0.3s ease-in-out, transform 0.3s ease-in-out;
 
@@ -97,6 +96,10 @@ main {
         height: calc(100% - 90px);
         margin-top: 60px;
 
+        @media screen and (max-width: 1500px) {
+            margin-top: 100px;
+        }
+
         .message {
             max-width: 70%;
             font-size: 1rem;
@@ -129,6 +132,7 @@ main {
             .info {
                 display: flex;
                 justify-content: space-between;
+                gap: 5px;
 
                 span {
                     font-size: 0.7rem;
@@ -185,6 +189,14 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    max-width: 350px;
+    min-width: 300px;
+
+    @media screen and (max-width: 1500px) {
+        width: 100%;
+        flex: 1;
+        max-width: 100%;
+    }
 
     .logo-text {
         font-size: 1.7rem;
